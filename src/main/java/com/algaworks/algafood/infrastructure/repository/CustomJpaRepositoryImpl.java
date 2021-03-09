@@ -15,6 +15,8 @@ public class CustomJpaRepositoryImpl<T, ID> extends SimpleJpaRepository<T, ID> i
 
 	public CustomJpaRepositoryImpl(JpaEntityInformation<T, ?> entityInformation, EntityManager entityManager) {
 		super(entityInformation, entityManager);
+		
+		this.manager = entityManager;
 	}
 
 	@Override
@@ -25,7 +27,6 @@ public class CustomJpaRepositoryImpl<T, ID> extends SimpleJpaRepository<T, ID> i
 		T entity = manager.createQuery(jpql, getDomainClass())
 		.setMaxResults(1)
 		.getSingleResult();
-		
 		
 		return Optional.ofNullable(entity);
 	}
