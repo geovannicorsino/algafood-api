@@ -13,7 +13,6 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "tb_forma_pagamento")
 public class FormaPagamento {
 
 	@EqualsAndHashCode.Include

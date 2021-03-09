@@ -15,7 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -28,7 +28,6 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "tb_restaurante")
 public class Restaurante {
 
 	@EqualsAndHashCode.Include
@@ -45,16 +44,16 @@ public class Restaurante {
 	@ManyToOne
 	@JoinColumn(name = "cozinha_id", nullable = false)
 	private Cozinha cozinha;
-	
+
 	@JsonIgnore
 	@Embedded
 	private Endereco endereco;
-	
+
 	@JsonIgnore
 	@CreationTimestamp
 	@Column(nullable = false, columnDefinition = "datetime")
 	private LocalDateTime dataCadastro;
-	
+
 	@JsonIgnore
 	@UpdateTimestamp
 	@Column(nullable = false, columnDefinition = "datetime")
@@ -62,9 +61,12 @@ public class Restaurante {
 
 	@JsonIgnore
 	@ManyToMany
-	@JoinTable(name = "tb_restaurante_forma_pagamento", 
-	joinColumns = @JoinColumn(name = "restaurante_id"),
+	@JoinTable(name = "restaurante_forma_pagamento", joinColumns = @JoinColumn(name = "restaurante_id"),
 	inverseJoinColumns = @JoinColumn(name = "forma_pagamento_id"))
 	private List<FormaPagamento> formasPagamento = new ArrayList<>();
+
+	@JsonIgnore
+	@OneToMany(mappedBy = "restaurante")
+	private List<Produto> produtos = new ArrayList<>();
 
 }
